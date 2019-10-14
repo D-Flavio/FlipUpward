@@ -14,6 +14,7 @@ public class CardGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_game);
 
+        //TODO this getintent is working incorrectly, it allways gets 2
         int dimensions = getIntent().getExtras().getInt("dimensions");
 
         gridLayout = findViewById(R.id.grid_layout);
