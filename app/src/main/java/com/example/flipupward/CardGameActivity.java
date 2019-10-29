@@ -20,7 +20,11 @@ public class CardGameActivity extends AppCompatActivity {
         gridLayout = findViewById(R.id.grid_layout);
 
         initGrid(gridLayout, dimensions, this);
+    }
 
+    public void endGame(){
+        EndGameDialog endGameDialog = new EndGameDialog();
+        endGameDialog.show(getSupportFragmentManager(), "endGameDialog");
     }
 
     public void initGrid(GridLayout gridLayout, int dimensions, Context current){

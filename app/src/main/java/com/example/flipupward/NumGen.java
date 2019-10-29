@@ -10,7 +10,7 @@ public class NumGen {
 
     public static int generate() {
         if (allNums.size()<1){
-            for (int i=1; i<101; i++) {
+            for (int i=1; i<100; i++) {
                 allNums.add(i);
             }
         }

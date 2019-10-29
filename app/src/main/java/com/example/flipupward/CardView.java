@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-//TODO compare flipped card numbers, if wrong also flip back all cards
-//TODO put an animation listener that on end animation checks if the game needs to be reset or not, and if it does it calls resetgamestatemethod
+//TODO set cards clickable after reset game state turnback animations end, without making them reset on every faceup call.
 
 public class CardView extends RelativeLayout {
 
@@ -32,7 +31,8 @@ public class CardView extends RelativeLayout {
     private static int flipCounter = 0;
     private static int flipTargetNum;
     private static int previousVal = 0;
-    private static boolean reset = false;
+    private static boolean gameOver = false;
+    private static boolean resetting = false;
 
     private static ArrayList<CardView> arrListCardView = new ArrayList<>();
 
@@ -41,7 +41,6 @@ public class CardView extends RelativeLayout {
         isFaceDown = true;
         value = NumGen.generate();
         if (flipTargetNum == 0){flipTargetNum = dimensions*dimensions;}
-        //TODO put all created objects in an arraylist
         arrListCardView.add(this);
 
         inflateLayout(context);
@@ -61,14 +60,27 @@ public class CardView extends RelativeLayout {
         setupAnimations(context);
 
         this.setOnClickListener(onClick -> {
-            if (this.isFaceDown){
+            if (isFaceDown){
                 if (value<previousVal){
-                    reset = true;
                     setCardsNonClickable();
+                    gameOver = true;
+                    mSetLeftIn.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            if (gameOver){
+                                resetGameState();
+                            }
+                            else if (resetting){
+                                setCardsClickable();
+                                resetting = false;
+                                mSetLeftIn.removeAllListeners();
+                            }
+                        }
+                    });
                 }
                 flipCounter++;
+                previousVal = value;
                 faceUp();
-                checkGameState();
             }
         });
 
@@ -77,15 +89,6 @@ public class CardView extends RelativeLayout {
     private void setupAnimations(Context context) {
         mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.show_card_animation);
         mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.hide_card_animation);
-
-        mSetRightOut.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (reset){
-                    resetGameState();
-                }
-            }
-        });
 
         int distance = 8000;
         float scale = getResources().getDisplayMetrics().density * distance;
@@ -109,20 +112,24 @@ public class CardView extends RelativeLayout {
         isFaceDown = true;
     }
 
+    //TODO checkgamestate needs to get out of Cardview class to a class that extends appcompatactivity in order to be albe to call the dialog
     public static void checkGameState(){
         if (flipCounter==flipTargetNum){
-            //TODO win
+
+
         }
 
     }
 
     public static void resetGameState(){
+        previousVal = 0;
         for (int i=0;i<arrListCardView.size();i++){
             if (!arrListCardView.get(i).isFaceDown){
                 arrListCardView.get(i).faceDown();
             }
         }
-        reset = false;
+        gameOver = false;
+        resetting = true;
     }
 
     public static void setCardsClickable(){
