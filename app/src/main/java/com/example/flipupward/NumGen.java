@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class NumGen {
-    //TODO simplify
 
     private static ArrayList<Integer> allNums = new ArrayList<>();
 
@@ -16,6 +15,8 @@ public class NumGen {
         }
 
         Collections.shuffle(allNums);
-        return allNums.get(1);
+        int i = allNums.get(1);
+        allNums.remove(1);
+        return i;
     }
 }

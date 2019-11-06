@@ -3,6 +3,7 @@ package com.example.flipupward;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridLayout;
 
 public class CardGameActivity extends AppCompatActivity {
@@ -14,7 +15,6 @@ public class CardGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_game);
 
-        //TODO this getintent is working incorrectly, it allways gets 2
         int dimensions = getIntent().getExtras().getInt("dimensions");
 
         gridLayout = findViewById(R.id.grid_layout);
@@ -37,7 +37,12 @@ public class CardGameActivity extends AppCompatActivity {
 
         for (int row = 0; row < sizeY; ++row) {
             for (int column = 0; column < sizeX; ++column) {
-                CardView card = new CardView(current, dimensions);
+                CardView card = new CardView(current, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        endGame();
+                    }
+                });
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(
                         GridLayout.spec(row, 1F),
                         GridLayout.spec(column, 1F)
