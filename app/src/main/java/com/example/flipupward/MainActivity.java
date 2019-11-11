@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                CardView.arrListCardView.clear();
                 Intent startFourCardGameActivityIntent = new Intent(MainActivity.this, CardGameActivity.class);
                 startFourCardGameActivityIntent.putExtra("dimensions", 2);
                 startActivity(startFourCardGameActivityIntent);
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         nineCardGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                CardView.arrListCardView.clear();
                 Intent startNineCardGameActivityIntent = new Intent(MainActivity.this, CardGameActivity.class);
                 startNineCardGameActivityIntent.putExtra("dimensions", 3);
                 startActivity(startNineCardGameActivityIntent);
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         sixteenCardGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+
+                CardView.arrListCardView.clear();
                 Intent startSixteenCardGameActivityIntent = new Intent(MainActivity.this, CardGameActivity.class);
                 startSixteenCardGameActivityIntent.putExtra("dimensions", 4);
                 startActivity(startSixteenCardGameActivityIntent);

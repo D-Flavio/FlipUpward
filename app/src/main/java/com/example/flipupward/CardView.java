@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -16,7 +15,8 @@ import java.util.ArrayList;
 
 public class CardView extends RelativeLayout {
 
-    //TODO make app forget all stored variable values after you win and quit out
+    //TODO every value needs to be reset, forgot, arraylists cleared, etc at start of new game
+
     private boolean isFaceDown;
 
     private TextView mTextView;
@@ -24,7 +24,6 @@ public class CardView extends RelativeLayout {
     private ImageView mFaceImageView;
     private FrameLayout mCardFrontFrame;
     private int value;
-    private Context context;
     private OnClickListener listener;
 
     private AnimatorSet mSetRightOut;
@@ -32,17 +31,15 @@ public class CardView extends RelativeLayout {
 
     private static int flipCounter = 0;
     private static int flipTargetNum;
-    //TODO previousVal needs to be set to 0 once you win
     private static int previousVal = 0;
     private static boolean gameOver = false;
     private static boolean resetting = false;
 
-    private static ArrayList<CardView> arrListCardView = new ArrayList<>();
+    public static ArrayList<CardView> arrListCardView = new ArrayList<>();
 
     public CardView(Context context, OnClickListener listener) {
         super(context);
         isFaceDown = true;
-        this.context = context;
         this.listener = listener;
         value = NumGen.generate();
         arrListCardView.add(this);
